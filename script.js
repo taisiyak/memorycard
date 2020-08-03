@@ -10,6 +10,10 @@ const addCardBtn = document.getElementById('add-card');
 const clearBtn = document.getElementById('clear');
 const addContainer = document.getElementById('add-container');
 
+const yesBtn = document.getElementById('yesbtn');
+const noBtn = document.getElementById('nobtn');
+const okBtn = document.getElementById('okbtn');
+
 // Keep track of current card
 let currentActiveCard = 0;
 
@@ -134,24 +138,42 @@ addCardBtn.addEventListener('click', () => {
   const question = questionEl.value;
   const answer = answerEl.value;
 
-  if (question.trim() && answer.trim()) {
-    const newCard = { question, answer };
+    if (question === '' || answer === '') {
+        document.getElementById('text-area').classList.toggle('show')
 
-    createCard(newCard);
+      } else if (question.trim() && answer.trim()) {
+            const newCard = { question, answer };
 
-    questionEl.value = '';
-    answerEl.value = '';
+            createCard(newCard);
 
-    addContainer.classList.remove('show');
+            questionEl.value = '';
+            answerEl.value = '';
 
-    cardsData.push(newCard);
-    setCardsData(cardsData);
+            addContainer.classList.remove('show');
+
+            cardsData.push(newCard);
+            setCardsData(cardsData);
   }
 });
 
-// Clear cards button
-clearBtn.addEventListener('click', () => {
-  localStorage.clear();
-  cardsContainer.innerHTML = '';
-  window.location.reload();
-});
+okBtn.addEventListener('click', () =>
+  document.getElementById('text-area').classList.remove('show')
+);
+
+//Clear cards button
+clearBtn.addEventListener('click', () => 
+  document.getElementById('text-box').classList.toggle('show')
+);
+    
+yesBtn.addEventListener('click', clearCards);
+
+    function clearCards() {
+        document.getElementById('text-box').classList.remove('show')
+        localStorage.clear();
+        cardsContainer.innerHTML = '';
+        window.location.reload();
+    }
+
+noBtn.addEventListener('click', () =>
+  document.getElementById('text-box').classList.remove('show')
+);
